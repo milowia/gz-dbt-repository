@@ -9,15 +9,57 @@ sources:
       - name: product
         identifier: raw_gz_product
         description: raw product data from data set 
+        columns:
+          - name: products_id
+            description: id of the product
+            tests:
+              - unique
+              - not_null
+          - name: purchSE_PRICE
+            description: purchase price of the product
         
       - name: sales
         identifier: raw_gz_sales
-        description: raw sales data from data set 
+        description: raw sales data from data set
+        columns:
+          - name: date_date
+            description: date of the order
+          - name: orders_id
+            description: id of the order
+          - name: pdt_id
+            description: id of the product of the order
+          - name: revenue
+            description: amount of the order
+          - name: quantity
+            description: quantity of the product of the order
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - orders_id
+                - pdt_id
+        loaded_at_field: CAST(date_date AS TIMESTAMP)
+        freshness:
+          warn_after: {count: 90, period: day}
+        
 
       - name: ship
         identifier: raw_gz_ship
         description: raw ship data
-        
+        columns:
+          - name: orders_id
+            description: order id
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: shipping fee
+          - name: shipping_fee_1
+            description: a copy of the shipping fee
+          - name: logCost
+            description: logistic cost
+          - name: ship_cost
+            description: shipping cost
+
 models:
   - name: stg_raw__product
     columns:
@@ -27,7 +69,6 @@ models:
           - unique
           - not_null
           
-      - name: purchSE_PRICE
-        description: purchase price of the product
 
-  
+
+
