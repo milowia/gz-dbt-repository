@@ -1,0 +1,33 @@
+
+version: 2
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    description: raw data from GZ company
+    tables:
+      - name: product
+        identifier: raw_gz_product
+        description: raw product data from data set 
+        
+      - name: sales
+        identifier: raw_gz_sales
+        description: raw sales data from data set 
+
+      - name: ship
+        identifier: raw_gz_ship
+        description: raw ship data
+        
+models:
+  - name: stg_raw__product
+    columns:
+      - name: products_id
+        description: id of the product
+        tests:
+          - unique
+          - not_null
+          
+      - name: purchSE_PRICE
+        description: purchase price of the product
+
+  
