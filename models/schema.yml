@@ -1,0 +1,135 @@
+
+version: 2
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    description: raw data from GZ company
+    tables:
+      - name: product
+        identifier: raw_gz_product
+        description: raw product data from data set 
+        columns:
+          - name: products_id
+            description: id of the product
+            tests:
+              - unique
+              - not_null
+          - name: purchSE_PRICE
+            description: purchase price of the product
+        
+      - name: sales
+        identifier: raw_gz_sales
+        description: raw sales data from data set
+        columns:
+          - name: date_date
+            description: date of the order
+          - name: orders_id
+            description: id of the order
+          - name: pdt_id
+            description: id of the product of the order
+          - name: revenue
+            description: amount of the order
+          - name: quantity
+            description: quantity of the product of the order
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - orders_id
+                - pdt_id
+        loaded_at_field: CAST(date_date AS TIMESTAMP)
+        freshness:
+          warn_after: {count: 90, period: day}
+        
+
+      - name: ship
+        identifier: raw_gz_ship
+        description: raw ship data
+        columns:
+          - name: orders_id
+            description: order id
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: shipping fee
+          - name: shipping_fee_1
+            description: a copy of the shipping fee
+          - name: logCost
+            description: logistic cost
+          - name: ship_cost
+            description: shipping cost
+
+models:
+  - name: int_sales_margin
+    description: join sales and product and calculate sales margin oh each product in each order
+    columns:
+          - name: products_id
+            description: id by product
+          - name: purchase_price
+            description: purchase by product
+          - name: date_date
+            description: date of order
+          - name: orders_id
+            description: id of order
+          - name: revenue
+            description: revenue by product by order
+          - name: quantity
+            description: quantity by product of each order
+          - name: purchase_cost
+            description: purchase cost by product by order
+          - name: sales_margin
+            description: sales margin of each product of each order
+    tests:
+      - unique:
+          column_name: "(orders_id || '_' || products_id)"
+
+  - name: int_orders_margin
+    description: sales_margin model aggregat by order_id
+    columns:
+      - name: date_date
+        description: date by order
+      - name: orders_id
+        description: id of order
+        tests:
+          - unique
+          - not_null
+      - name: quantity_product
+        description: total quatity of product in each order
+      - name: revenue 
+        description: total revenue of each order
+      - name: purchase_cost
+        description: total purchase cost of each order
+      - name: orders_margin
+        description: margin of each order
+
+  - name: int_orders_operational
+    description: join orders_margin and stg_raw_ship to calculate operational_margin
+    columns:
+      - name: orders_id
+        description: id of order
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of order
+      - name: quantity_product
+        description: total quantity of product in each order
+      - name: revenue
+        description: total revenue of each order
+      - name: purchase_cost
+        description: total purchase cost product of each order
+      - name: orders_margin
+        description: margin of each order
+      - name: shipping_fee
+        description: shipping fee of each order
+      - name: logcost
+        description: logistic cost of each order
+      - name: ship_cost
+        description: shipping cost of each order
+      - name: operational_margin
+        description: revenue + shipping fee - shipping cost - logistic cost
+
+
+
+
