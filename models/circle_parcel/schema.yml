@@ -1,0 +1,45 @@
+version : 2
+
+sources:
+  - name: circle_raw
+    schema: raw_data_circle
+    description: raw data from Circle company
+    tables:
+      - name: parcel
+        identifier: raw_cc_parcel
+      - name: parcel_product
+        identifier: raw_cc_parcel_product
+
+models:
+  - name: stg_circle_raw__parcel
+    description: raw parcel data model with cleaning
+    columns:
+      - name: parcel_id
+        description: id of parcel
+        tests:
+          - unique
+          - not_null
+      - name: parcel_tracking
+        description: tracking url of the parcel
+      - name: transporter
+        description: name of the transporter
+      - name: priority
+        description: priority level of the parcel
+      - name: date_purchase
+        description: purchase date of the parcel
+      - name: date_shipping
+        description: shipping date
+      - name: date_delivery
+        description: delivery date 
+      - name: date_cancelled
+        description: cancelled date
+
+  - name: stg_cc_parcel_products
+    description: products info in the parcel with cleaning
+    columns:
+      - name: "(parcel_id || '_' || model_name)"
+        tests:
+          - unique
+          - not_null
+              
+          
