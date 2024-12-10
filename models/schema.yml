@@ -98,7 +98,7 @@ models:
             description: sales margin of each product of each order
     tests:
       - unique:
-          column_name: "(orders_id || '_' || products_id)"
+          column_name: "(orders_id||'_'||products_id)"
 
   - name: int_orders_margin
     description: sales_margin model aggregat by order_id
@@ -146,6 +146,11 @@ models:
       - name: operational_margin
         description: revenue + shipping fee - shipping cost - logistic cost
 
+  - name: int_campaigns
+    description: union 4 stg ads model
+    tests:
+      - unique:
+          column_name: "(date_date ||'_'|| campaign_key)"
 
 
 
