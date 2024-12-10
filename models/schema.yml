@@ -60,6 +60,22 @@ sources:
           - name: ship_cost
             description: shipping cost
 
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: raw ads data from adwords
+    
+      - name: bing
+        identifier: raw_gz_bing
+        description: raw ads data from bing
+  
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: raw ads data from criteo
+
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: raw ads data from facebook
+
 models:
   - name: int_sales_margin
     description: join sales and product and calculate sales margin oh each product in each order
