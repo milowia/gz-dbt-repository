@@ -156,5 +156,8 @@ models:
     description: agragted daily ads data with 4 stg ads model
     tests:
       - unique:
-          column_name: date_date
+          column_name: 'date_date'
+
+  - name: finance_campaigns_day
+    description: Join the int_campaigns_day model with finance_days to compute the ads_margin
 
