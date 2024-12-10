@@ -152,5 +152,9 @@ models:
       - unique:
           column_name: "(date_date ||'_'|| campaign_key)"
 
-
+  - name: int_campaigns_day
+    description: agragted daily ads data with 4 stg ads model
+    tests:
+      - unique:
+          column_name: date_date
 
