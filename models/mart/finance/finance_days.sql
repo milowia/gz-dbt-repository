@@ -3,7 +3,7 @@ SELECT
     COUNT(orders_id) AS daily_n_transactions,
     ROUND(SUM(revenue), 2) AS daily_revenue,
     ROUND(SUM(orders_margin), 2) AS daily_margin,
-    ROUND(SUM(revenue)/COUNT(orders_id), 3) AS avereage_basket,
+    ROUND(SUM(revenue)/COUNT(orders_id), 3) AS average_basket,
     ROUND(SUM(opperational_margin), 2) AS daily_operational_margin,
     ROUND(SUM(purchase_cost), 2) AS daily_purchase_cost,
     ROUND(SUM(shipping_fee), 2) AS daily_shipping_fee,
