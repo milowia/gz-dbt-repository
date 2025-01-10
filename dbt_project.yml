@@ -44,3 +44,5 @@ models:
         +schema: finance
     circle_parcel:
       +schema: parcel_dbt_dev
+    airbnb:
+      +schema: airbnb
