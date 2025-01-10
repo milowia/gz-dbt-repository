@@ -8,5 +8,4 @@ SELECT
         WHEN price BETWEEN 500 AND 1500 THEN 'expensive'
         ELSE 'afordable'
     END AS price_range
-    IF(available = true) AS available
 FROM {{ref('stg_airbnb')}}
