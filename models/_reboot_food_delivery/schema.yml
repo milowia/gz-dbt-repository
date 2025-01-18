@@ -1,0 +1,9 @@
+version : 2
+
+sources:
+  - name: food_delivery
+    schema: reboot
+    description: raw airbnb data
+    tables:
+      - name: food_delivery_raw
+        identifier: food_delivery_2017
