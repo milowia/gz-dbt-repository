@@ -5,5 +5,5 @@ sources:
     schema: reboot
     description: raw airbnb data
     tables:
-      - name: food_delivery_raw
+      - name: raw
         identifier: food_delivery_2017
